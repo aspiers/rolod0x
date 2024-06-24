@@ -1,6 +1,6 @@
 import * as browser from 'webextension-polyfill';
 import addDomainPermissionToggle from 'webext-permission-toggle';
-import 'webext-dynamic-content-scripts';
+import 'webext-dynamic-content-scripts/including-active-tab.js';
 
 import { displayLookup } from '@src/shared/lookup';
 import { checkPermissions } from '@src/shared/permissions';
@@ -10,8 +10,12 @@ import { initContextMenu } from './contextMenu';
 
 browser.permissions.onAdded.addListener(() => checkPermissions('onAdded'));
 browser.permissions.onRemoved.addListener(() => checkPermissions('onRemoved'));
-// browser.tabs.onActivated.addListener(() => checkPermissions('tab activated'));
-// browser.tabs.onUpdated.addListener(() => checkPermissions('tab updated'));
+// browser.tabs.onActivated.addListener(async ({ tabId, windowId }) => {
+//   checkPermissions('tab activated')
+// });
+// browser.tabs.onUpdated.addListener(async (tabId, { status }, { url, active }) => {
+//   checkPermissions('tab updated');
+// });
 
 checkPermissions('init');
 addDomainPermissionToggle();
